@@ -104,8 +104,8 @@ Tests use small made-up fixtures in `tracker/tests/fixtures/`, so they run witho
 
 - [x] Django project and `tracker` app
 - [x] PostgreSQL via Docker Compose, settings read from `.env`
-- [ ] `Company`, `Posting` and `Application` models
-- [ ] Admin with filters, search and an application inline
+- [x] `Company`, `Posting` and `Application` models
+- [x] Admin with filters, search and an application inline
 - [ ] `import_jobscout` management command
 - [ ] Tests for the models and the import (pytest-django)
 - [ ] GitHub Actions CI
