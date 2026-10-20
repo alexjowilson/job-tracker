@@ -46,7 +46,7 @@ jobscout lives in a separate private repo. This app only reads its output files 
 
 ## Getting started
 
-**Prerequisites:** Python 3.11+, Docker Desktop.
+**Prerequisites:** Python 3.11+ and Docker Desktop (running).
 
 ```bash
 git clone https://github.com/alexjowilson/job-tracker.git
@@ -55,9 +55,20 @@ cd job-tracker
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
+```
 
-cp .env.example .env          # database settings
-docker compose up -d          # start PostgreSQL
+**Configure:** copy the example settings, then fill in `DJANGO_SECRET_KEY` and `DB_PASSWORD` in `.env`.
+
+```bash
+cp .env.example .env
+python -c "import secrets; print(secrets.token_urlsafe(50))"   # paste as DJANGO_SECRET_KEY
+```
+
+**Start PostgreSQL and the app:**
+
+```bash
+docker compose up -d          # Postgres 16; first run initializes the database
+docker compose ps             # wait until the db shows "healthy"
 
 python manage.py migrate
 python manage.py createsuperuser
@@ -65,6 +76,15 @@ python manage.py runserver
 ```
 
 Then open http://localhost:8000/admin and log in.
+
+**Day to day:**
+
+| Task | Command |
+| --- | --- |
+| Start the database | `docker compose up -d` |
+| Stop it (data is kept) | `docker compose stop` |
+| View database logs | `docker compose logs db` |
+| Reset everything (deletes all data) | `docker compose down -v` |
 
 ### Importing from jobscout
 
@@ -83,7 +103,7 @@ Tests use small made-up fixtures in `tracker/tests/fixtures/`, so they run witho
 ## Roadmap
 
 - [x] Django project and `tracker` app
-- [ ] PostgreSQL via Docker Compose, settings read from `.env`
+- [x] PostgreSQL via Docker Compose, settings read from `.env`
 - [ ] `Company`, `Posting` and `Application` models
 - [ ] Admin with filters, search and an application inline
 - [ ] `import_jobscout` management command
