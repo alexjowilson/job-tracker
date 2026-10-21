@@ -1,5 +1,7 @@
 # job-tracker
 
+[![CI](https://github.com/alexjowilson/job-tracker/actions/workflows/ci.yml/badge.svg)](https://github.com/alexjowilson/job-tracker/actions/workflows/ci.yml)
+
 A Django + PostgreSQL app for tracking a job search from posting to offer. It imports new postings from **jobscout**, my automated job-posting pipeline, and tracks every application through each stage of the process.
 
 > **Status:** in active development. See the [roadmap](#roadmap) for what's built and what's next.
@@ -98,7 +100,7 @@ python manage.py import_jobscout --path ~/Developer/jobscout
 pytest
 ```
 
-Tests use small made-up fixtures in `tracker/tests/fixtures/`, so they run without any real job-search data.
+Tests create their own made-up records in a temporary test database, so they never touch real job-search data. GitHub Actions runs them, plus a missing-migrations check, on every push.
 
 ## Roadmap
 
@@ -107,8 +109,9 @@ Tests use small made-up fixtures in `tracker/tests/fixtures/`, so they run witho
 - [x] `Company`, `Posting` and `Application` models
 - [x] Admin with filters, search and an application inline
 - [ ] `import_jobscout` management command
-- [ ] Tests for the models and the import (pytest-django)
-- [ ] GitHub Actions CI
+- [x] Tests for the models and admin (pytest-django)
+- [ ] Tests for the import
+- [x] GitHub Actions CI
 - [ ] Export the applied list back to jobscout
 - [ ] Pipeline view: applications by status and résumé version
 - [ ] Demo deployment on AWS with seeded sample data
